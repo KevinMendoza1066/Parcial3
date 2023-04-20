@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.menu_borrar:
                 // Acción para la opción Borrar
                 Toast.makeText(getApplicationContext(), "Se selecciona Borrar", Toast.LENGTH_LONG).show();
+                Borrar();
                 return true;
             case R.id.menu_actualizar:
                 // Acción para la opción Actualizar
@@ -180,6 +182,61 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         txtApellido.setText("");
         txtTelefono.setText("");
         txtCorreo.setText("");
+        txtId.setText("");
     }
+    private void Borrar(){
+        SQLiteHelper admin = new SQLiteHelper(getApplicationContext(),"Parcial",null,2);
+        SQLiteDatabase bd= admin.getWritableDatabase();
+        String Id=txtId.getText().toString();
+        if(!TextUtils.isEmpty(Id)){
+        int result=bd.delete("Contactos",
+                "IdContacto="+Id,null);
+        bd.close();
 
+
+        if(result==1){
+            Toast.makeText(getApplicationContext(),"Se borro el contacto",Toast.LENGTH_LONG).show();
+            limpiarCampos();
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"No se borro el contacto",Toast.LENGTH_LONG).show();
+
+        }
+        }else{
+            Toast.makeText(getApplicationContext(),"ID vacio , realice la busqueda antes",Toast.LENGTH_LONG).show();
+
+        }
+    }
+    private void Actualizar(){
+        SQLiteHelper admin = new SQLiteHelper(getApplicationContext(),"Parcial",null,2);
+        SQLiteDatabase bd= admin.getWritableDatabase();
+        String Id=txtId.getText().toString();
+        String Nombre = txtNombre.getText().toString();
+        String Apellido = txtApellido.getText().toString();
+        String Telefono = txtTelefono.getText().toString();
+        String Correo = txtCorreo.getText().toString();
+
+        ContentValues informacion = new ContentValues();
+        informacion.put("Nombre", Nombre);
+        informacion.put("Apellidos", Apellido);
+        informacion.put("Telefono", Telefono);
+        informacion.put("Correo", Correo);
+        if(!TextUtils.isEmpty(Id)){
+            int result=bd.update("Contactos",informacion,
+                    "IdContacto="+Id,null);
+            bd.close();
+
+            if(result==1){
+                Toast.makeText(getApplicationContext(),"Se Actualizo el contacto",Toast.LENGTH_LONG).show();
+                limpiarCampos();
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"No se Actualizo el contacto",Toast.LENGTH_LONG).show();
+
+            }
+        }else{
+            Toast.makeText(getApplicationContext(),"ID vacio , realice la busqueda antes",Toast.LENGTH_LONG).show();
+
+        }
+    }
 }
