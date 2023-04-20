@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,7 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.parcial3.Helper.SQLiteHelper;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    EditText txtNombre,txtApellido,txtTelefono,txtCorreo;
+    EditText txtNombre,txtApellido,txtTelefono,txtCorreo,txtId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         txtApellido=findViewById(R.id.edtApellidos);
         txtTelefono=findViewById(R.id.edtTelefono);
         txtCorreo=findViewById(R.id.edtCorreo);
-
+        txtId=findViewById(R.id.edtID);
         BottomNavigationView navigationView = findViewById(R.id.menu_navegacion);
         navigationView.setOnNavigationItemSelectedListener(this);
     }
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         3-Telefono
         4-Correo
         */
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Buscando por " + NombreBusqueda);
 
@@ -103,9 +105,40 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         builder.setPositiveButton("Buscar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String name = input.getText().toString().trim();
-                //List<Contact> contacts = db.searchContactsByName(name);
-                // Display the results in a list or another view
+                String Dato = input.getText().toString().trim();
+                SQLiteHelper admin = new SQLiteHelper(getApplicationContext(), "Parcial", null, 2);
+                SQLiteDatabase bd = admin.getWritableDatabase();
+                String Consulta ="";
+
+                switch (Opcion){
+                    case 1:
+                        Consulta= "SELECT IdContacto, Nombre,Apellidos,Telefono,Correo  FROM Contactos WHERE Nombre = '" + Dato + "' LIMIT 1";
+                        break;
+                    case 2:
+                        Consulta= "SELECT IdContacto, Nombre,Apellidos,Telefono,Correo  FROM Contactos WHERE Apellidos = '" + Dato + "' LIMIT 1";
+                        break;
+                    case 3:
+                        Consulta= "SELECT IdContacto, Nombre,Apellidos,Telefono,Correo  FROM Contactos WHERE Telefono  = '" + Dato + "' LIMIT 1";
+                        break;
+                    case 4:
+                        Consulta= "SELECT IdContacto, Nombre,Apellidos,Telefono,Correo  FROM Contactos WHERE Correo = '" + Dato + "' LIMIT 1";
+                        break;
+                }
+
+                Cursor filas = bd.rawQuery(Consulta, null);
+
+                if (filas.moveToFirst()) {
+                    txtId.setText(filas.getString(0));
+                    txtNombre.setText(filas.getString(1));
+                    txtApellido.setText(filas.getString(2));
+                    txtTelefono.setText(filas.getString(3));
+                    txtCorreo.setText(filas.getString(4));
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se encontró ningún contacto con ese "+NombreBusqueda, Toast.LENGTH_LONG).show();
+                }
+
+                bd.close();
             }
         });
 
