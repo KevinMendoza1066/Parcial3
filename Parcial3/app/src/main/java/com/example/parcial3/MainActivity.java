@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.menu_actualizar:
                 // Acción para la opción Actualizar
                 Toast.makeText(getApplicationContext(), "Se selecciona Borrar", Toast.LENGTH_LONG).show();
+                Actualizar();
                 return true;
         }
         return false;
