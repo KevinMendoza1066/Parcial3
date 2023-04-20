@@ -9,10 +9,68 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="-256dp">
+        android:orientation="vertical"
+        android:padding="5dp">
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CRUD Contactos"
+            android:textSize="36sp"
+            android:textColor="#800080"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="IDContacto"
+            android:inputType="textPersonName"
+            android:enabled="false"
+            android:text="" />
+
+        <EditText
+            android:id="@+id/edtNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Nombres"
+            android:layout_marginTop="20dp"
+            android:text="" />
+
+        <EditText
+            android:id="@+id/edtApellidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Apellidos"
+            android:layout_marginTop="20dp"
+            android:text="" />
+
+        <EditText
+            android:id="@+id/edtTelefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="7755-7755"
+            android:layout_marginTop="20dp"
+            android:text="" />
+
+        <EditText
+            android:id="@+id/edtCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="ejemplo@ejemplo.com"
+            android:layout_marginTop="20dp"
+            android:text="" />
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

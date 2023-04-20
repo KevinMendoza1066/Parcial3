@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
@@ -13,13 +15,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import com.example.parcial3.Helper.SQLiteHelper;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
+    EditText txtNombre,txtApellido,txtTelefono,txtCorreo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        txtNombre=findViewById(R.id.edtNombre);
+        txtApellido=findViewById(R.id.edtApellidos);
+        txtTelefono=findViewById(R.id.edtTelefono);
+        txtCorreo=findViewById(R.id.edtCorreo);
+
         BottomNavigationView navigationView = findViewById(R.id.menu_navegacion);
         navigationView.setOnNavigationItemSelectedListener(this);
     }
@@ -29,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.menu_insertar:
                 // Acción para la opción Insertar
                 Toast.makeText(getApplicationContext(), "Se selecciona Insertar", Toast.LENGTH_LONG).show();
-
+                insertarProducto();
+                limpiarCampos();
                 return true;
             case R.id.menu_borrar:
                 // Acción para la opción Borrar
@@ -109,6 +118,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         builder.show();
     }
+    public void insertarProducto() {
+        SQLiteHelper admin = new SQLiteHelper(getApplicationContext(), "Parcial", null, 2);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        String Nombre = txtNombre.getText().toString();
+        String Apellido = txtApellido.getText().toString();
+        String Telefono = txtTelefono.getText().toString();
+        String Correo = txtCorreo.getText().toString();
 
+        ContentValues informacion = new ContentValues();
+        informacion.put("Nombre", Nombre);
+        informacion.put("Apellidos", Apellido);
+        informacion.put("Telefono", Telefono);
+        informacion.put("Correo", Correo);
+
+
+        try {
+            bd.insert("Contactos", null, informacion);
+            Toast.makeText(getApplicationContext(), "Se insertó el Contacto", Toast.LENGTH_LONG).show();
+            bd.close();
+        } catch (Exception e) {
+            //pendiente imprimir error
+            Toast.makeText(getApplicationContext(), "" + e.getCause(), Toast.LENGTH_LONG).show();
+        }
+    }
+    private void limpiarCampos() {
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtTelefono.setText("");
+        txtCorreo.setText("");
+    }
 
 }
