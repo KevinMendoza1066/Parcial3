@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:icon="@drawable/ic_buscar"
+    android:src="@drawable/ic_buscar">
+    <item
+        android:id="@+id/buscar_nombre"
+        android:title="Buscar por nombre" />
+    <item
+        android:id="@+id/buscar_apellido"
+        android:title="Buscar por apellido" />
+    <item
+        android:id="@+id/buscar_telefono"
+        android:title="Buscar por teléfono" />
+    <item
+        android:id="@+id/buscar_correo"
+        android:title="Buscar por correo" />
+</menu>
